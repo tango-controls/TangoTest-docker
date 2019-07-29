@@ -8,6 +8,7 @@ RUN runtimeDeps='supervisor' \
 
 # Configure supervisord. Ensure supervisord.conf contains entries for your device!
 COPY supervisord.conf /etc/supervisor/conf.d/
+COPY tango_register_device /usr/local/bin/
 
 RUN useradd --create-home --home-dir /home/tango tango
 
