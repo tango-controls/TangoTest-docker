@@ -9,6 +9,11 @@ RUN runtimeDeps='supervisor' \
 # Configure supervisord. Ensure supervisord.conf contains entries for your device!
 COPY supervisord.conf /etc/supervisor/conf.d/
 
+RUN useradd --create-home --home-dir /home/tango tango
+
+RUN echo "tango ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/tango \
+    && chmod 0440 /etc/sudoers.d/tango
+
 #TODO failed to start supervisor under tango user - Permission denied
 USER root
 
