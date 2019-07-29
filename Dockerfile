@@ -1,10 +1,10 @@
-ARG  TANGO_VER
+ARG  TANGO_VER=9.3.3-rc1
 FROM tangocs/tango-libs:${TANGO_VER}
 MAINTAINER info@tango-controls.org
 
 RUN runtimeDeps='supervisor' \
-    && DEBIAN_FRONTEND=noninteractive sudo apt-get update \
-    && DEBIAN_FRONTEND=noninteractive sudo apt-get -y install --no-install-recommends $runtimeDeps
+    && DEBIAN_FRONTEND=noninteractive apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends $runtimeDeps
 
 # Configure supervisord. Ensure supervisord.conf contains entries for your device!
 COPY supervisord.conf /etc/supervisor/conf.d/
