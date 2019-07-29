@@ -1,0 +1,27 @@
+language: bash
+
+notifications:
+  email: false
+
+services:
+  - docker
+
+env:
+  - TANGO_VER=9.3.3-rc1 DOCKER_IMAGE=tangocs/tango-test
+
+script:
+  - docker build --build-arg TANGO_VER=${TANGO_VER} -t ${DOCKER_IMAGE} .
+
+before_deploy:
+  - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
+  - docker tag ${DOCKER_IMAGE} ${DOCKER_IMAGE}:${TANGO_VER}
+
+deploy:
+  - provider: script
+    script: docker push ${DOCKER_IMAGE}:latest
+    on:
+      all_branches: true
+  - provider: script
+    script: docker push ${DOCKER_IMAGE}:${TANGO_VER}
+    on:
+      all_branches: true
