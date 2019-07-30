@@ -14,14 +14,14 @@ script:
 
 before_deploy:
   - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
-  - docker tag ${DOCKER_IMAGE} ${DOCKER_IMAGE}:${TANGO_VER}
+  - docker tag ${DOCKER_IMAGE} ${DOCKER_IMAGE}:${TRAVIS_BRANCH}
 
 deploy:
   - provider: script
     script: docker push ${DOCKER_IMAGE}:latest
     on:
-      all_branches: true
+      branch: master
   - provider: script
-    script: docker push ${DOCKER_IMAGE}:${TANGO_VER}
+    script: docker push ${DOCKER_IMAGE}:${TRAVIS_TAG}
     on:
-      all_branches: true
+      tags: true
